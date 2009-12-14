@@ -1,12 +1,15 @@
 package ch.forea.textas{
 
+  import __AS3__.vec.Vector;
+
   public class Location{
 
     private var _title:String = "";
     private var _description:String = "";
-    private var _exits:Array = [];
-    
-    public function Location(title:String = "", description:String = ""){
+    private var _exits:Vector.<Exit> = new Vector.<Exit>;
+    private var _rules:Vector.<Rule> = new Vector.<Rule>;
+
+    public function Location(title:String = "NO TITLE", description:String = "NO DESCRIPTION"){
       _title = title;
       _description = description;
     }
@@ -25,7 +28,21 @@ package ch.forea.textas{
       }
     }
 
-    public function get exits():Array{
+    public function addRule(rule:Rule):void{
+      _rules.push(rule);
+    }
+
+    public function removeRule(rule:Rule):void{
+      if(_rules.indexOf(rule) > -1){
+	_rules = _rules.splice(_rules.indexOf(rule), 1);
+      }
+    }
+
+    public function get rules():Vector.<Rule>{
+      return _rules.concat();
+    }
+
+    public function get exits():Vector.<Exit>{
       return _exits.concat();
     }
 
