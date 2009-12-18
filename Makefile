@@ -9,7 +9,7 @@
 
 
 engine:
-	mxmlc src/ch/forea/textas/Main.as -default-size 720 496 -default-background-color=0xA5A5FF -source-path='src/' -debug=true -target-player=10
+	mxmlc src/ch/forea/textas/Main.as -default-size 720 496 -default-background-color=0xA5A5FF -source-path='src/' -debug=true -target-player=10 -managers flash.fonts.JREFontManager flash.fonts.BatikFontManager flash.fonts.AFEFontManager
 
 run:
 	fdb run src/ch/forea/textas/Main.swf 
