@@ -10,12 +10,13 @@ package ch.forea.textas{
     public var currentLocation:Location;
     
     private var _directions:Vector.<String> = Vector.<String>(["NORTH", "SOUTH", "EAST", "WEST", "UP", "DOWN"]);
-    private var _verbs:Vector.<String> = Vector.<String>(["LOOK", "SWITCH", "TURN"]);
+    private var _verbs:Vector.<String> = Vector.<String>(["LOOK", "EXAMINE", "SWITCH", "TURN", "PICK", "GET"]);
     private var _nouns:Vector.<String> = Vector.<String>(["ON", "OFF", "LIGHT", "LIGHTS", "SHOE", "SHOES"]);
     
     private var _rules:Vector.<Rule> = new Vector.<Rule>;
     
     private var write:Function;
+    private var showLocation:Function;
     
     public function get directions():Vector.<String>{
       return _directions.concat();
@@ -43,9 +44,10 @@ package ch.forea.textas{
 
 
 
-    public function World(write:Function){
+    public function World(write:Function, showLocation:Function){
 
       this.write = write;
+      this.showLocation = showLocation;
       
       var location0:Location = new Location("DARK ROOM", "IT IS TOO DARK TO SEE ANYTHING");
       var location1:Location = new Location("TINY DARK ROOM", "YOU ARE STANDING IN A TINY DARK ROOM.  THE ONLY LIGHT IS FROM ROOM YOU CAME FROM.  CLOTHES ARE HANGING ALL AROUND YOU AND SHOES LITTER THE FLOOR.");
@@ -65,8 +67,9 @@ package ch.forea.textas{
 
       var action0_2:Function = function():void{
 	location0_vars["lightsOn"] = true;
+	currentLocation.description = "THE LIGHT BULB FLICKERS DIMLY IN TO EXISTENCE.  THE ROOM DOESN'T LOOK LIKE IT'S BEEN LIVED IN FOR YEARS.  AFTER A MOMENT, YOU REALISE THAT THIS IS YOUR APPARTMENT.";
+	showLocation();
 	currentLocation.description = "THE LIGHT IS ON, BUT YOU'D PREFER IF IT WASN'T.  THE ROOM IS A GRIMEY MESS.  KIBBLE SEEMS TO HAVE TAKEN OVER.  THERE IS A DOOR LEADING NORTH AND A ROOM TO THE EAST.";
-	write("THE LIGHT BULB FLICKERS DIMLY IN TO EXISTENCE.  THE ROOM DOESN'T LOOK LIKE IT'S BEEN LIVED IN FOR YEARS.  AFTER A MOMENT, YOU REALISE THAT THIS IS YOUR APPARTMENT.");
       };
       location0.addRule(new Rule(this, ["TURN ON LIGHT", "TURN ON LIGHTS", "SWITCH ON LIGHT", "SWITCH ON LIGHTS"], [condition0_0], [action0_2]));
 
@@ -88,9 +91,14 @@ package ch.forea.textas{
       location0.addRule(new Rule(this, ["TURN OFF LIGHT", "TURN OFF LIGHTS", "SWITCH OFF LIGHT", "SWITCH OFF LIGHTS"], [condition0_0], [action0_5]));
       
       var action1_0:Function = function():void{
-	write("YOU WOULD, BUT THERE ISN'T ENOUGH SPACE TO BEND OVER.");
+	write("THERE ISN'T ENOUGH SPACE TO BEND OVER, BUT YOU WOULDN'T WANT TO ANYWAY, THE ODOUR IS QUITE PUNGENT, EVEN FROM UP HERE!");
       };
-      location1.addRule(new Rule(this, ["LOOK SHOES"], [], [action1_0]));
+      location1.addRule(new Rule(this, ["LOOK SHOES", "LOOK SHOE", "EXAMINE SHOES", "EXAMINE SHOE"], [], [action1_0]));
+
+      var action1_1:Function = function():void{
+	write("NO.");
+      };
+      location1.addRule(new Rule(this, ["GET SHOES", "GET SHOE", "PICK UP SHOES", "PICK UP SHOE"], [], [action1_1]));
     }
   }
 

@@ -24,7 +24,7 @@ package ch.forea.textas{
       stage.scaleMode = StageScaleMode.NO_SCALE;
       stage.align = StageAlign.TOP_LEFT;
 
-      world = new World(write);
+      world = new World(write, showLocation);
       
       stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
       graphics.beginFill(0x4242E7);
@@ -42,7 +42,7 @@ package ch.forea.textas{
       outputText.sharpness = 400;
       outputText.thickness = -200;
       outputText.antiAliasType = flash.text.AntiAliasType.ADVANCED;
-
+      outputText.mouseEnabled = false;
       outputText.defaultTextFormat = format;
       outputText.x = 40;
       outputText.y = 48;
@@ -52,6 +52,7 @@ package ch.forea.textas{
       addChild(outputText);
       
       inputText = new TextField();
+      inputText.mouseEnabled = false;
       inputText.defaultTextFormat = format;
       inputText.x = 40;
       inputText.y = 428;
