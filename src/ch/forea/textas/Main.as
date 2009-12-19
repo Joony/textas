@@ -12,6 +12,7 @@ package ch.forea.textas{
 
   public class Main extends Sprite{
     
+    private static const PROMPT:String = "WHAT NOW?> ";
     private var outputText:TextField;
     private var world:World;
     private var inputString:String = "";
@@ -58,6 +59,7 @@ package ch.forea.textas{
       inputText.y = 428;
       inputText.width = 640;
       inputText.height = 20;
+      inputText.text = PROMPT;
       addChild(inputText);
       
       showLocation();
@@ -65,13 +67,13 @@ package ch.forea.textas{
 
     private function keyDown(e:KeyboardEvent):void{
       if((e.keyCode >= 65 && e.keyCode <= 90) || e.keyCode == 32 || (e.keyCode >= 48 && e.keyCode <= 57)){
-	if(inputString.length < 38) inputString += String.fromCharCode(e.keyCode).toUpperCase();
+	if(inputString.length < 29) inputString += String.fromCharCode(e.keyCode).toUpperCase();
       }else if(e.keyCode == 8 || e.keyCode == 46){
 	inputString = inputString.slice(0, inputString.length - 1);
       }else if(e.keyCode == 13){
 	action();
       }
-      inputText.text = inputString;
+      inputText.text = PROMPT + inputString;
     }
 
     private function write(input:String):void{
@@ -86,7 +88,7 @@ package ch.forea.textas{
       write("\n");
       write(world.currentLocation.description);
       write("\n");
-      write("Available exits: " + world.currentLocation.exits.join(", "));
+      write("AVAILABLE EXITS: " + world.currentLocation.exits.join(", "));
       write("----------------------------------------");
       write("\n");
     }
@@ -111,7 +113,7 @@ package ch.forea.textas{
 	    inputString = "";
 	    showLocation();
 	  }else{
-	    write("You can't go that way.");
+	    write("YOU CANNOT GO THAT WAY.");
 	    inputString = "";
 	  }
 	  return;
@@ -127,7 +129,7 @@ package ch.forea.textas{
       }
 
       if(!foundVerb){
-	write("I do not understand what you want to do.");
+	write("I DO NOT UNDERSTAND WHAT YOU WANT TO DO.");
 	inputString = "";
 	return;
       }
@@ -156,7 +158,7 @@ package ch.forea.textas{
         }
       }
 
-      write("I do not understand what you want to do.");
+      write("I DO NOT UNDERSTAND WHAT YOU WANT TO DO.");
       inputString = "";
       
     }
