@@ -23,9 +23,13 @@ package ch.forea.textas{
     }
 
     public function removeExit(exit:Exit):void{
+      trace("removeExit("+exit+")");
+      trace("_exits:",_exits);
+      trace(_exits.indexOf(exit));
       if(_exits.indexOf(exit) > -1){
-	_exits = _exits.splice(_exits.indexOf(exit), 1);
+	_exits.splice(_exits.indexOf(exit), 1);
       }
+      trace("_exits:", _exits);
     }
 
     public function addRule(rule:Rule):void{
@@ -34,7 +38,7 @@ package ch.forea.textas{
 
     public function removeRule(rule:Rule):void{
       if(_rules.indexOf(rule) > -1){
-	_rules = _rules.splice(_rules.indexOf(rule), 1);
+	_rules.splice(_rules.indexOf(rule), 1);
       }
     }
 

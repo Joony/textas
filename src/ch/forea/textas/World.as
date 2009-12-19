@@ -5,7 +5,7 @@ package ch.forea.textas{
     public var score:uint = 0;
     public var euros:uint = 0;
 
-    public var location0_vars:Object = {};
+    public var inventory:Object = {};
     
     public var currentLocation:Location;
     
@@ -52,22 +52,28 @@ package ch.forea.textas{
       var location0:Location = new Location("DARK ROOM", "IT IS TOO DARK TO SEE ANYTHING");
       var location1:Location = new Location("TINY DARK ROOM", "YOU ARE STANDING IN A TINY DARK ROOM.  THE ONLY LIGHT IS FROM ROOM YOU CAME FROM.  CLOTHES ARE HANGING ALL AROUND YOU AND SHOES LITTER THE FLOOR.");
       var location2:Location = new Location("HALLWAY", "YOU ARE STANDING OUTSIDE YOUR APPARTMENT.  2673.  THE DOOR IS WIDE OPEN AND YOU CAN SEE THE SMELL ESCAPING.");
+      // EXITS
 
-      location0.addExit(new Exit(Exit.NORTH, location1));
-      location0.addExit(new Exit(Exit.EAST, location2));
       location1.addExit(new Exit(Exit.SOUTH, location0));
       location2.addExit(new Exit(Exit.WEST, location0));
 
       currentLocation = location0;
-
-      var location0_vars:Object = {lightsOn:false};
       
-      var condition0_0:Function = function():Boolean{return !location0_vars["lightsOn"] ? true : false};
-      var condition0_1:Function = function():Boolean{return location0_vars["lightsOn"] ? true : false};
+
+
+      
+      // LOCATION 0
+
+      var location0_vars:Object = {lightsOn:false, north:new Exit(Exit.NORTH, location1), east:new Exit(Exit.EAST, location2)};
+      
+      var condition0_0:Function = function():Boolean{return !location0_vars.lightsOn ? true : false};
+      var condition0_1:Function = function():Boolean{return location0_vars.lightsOn ? true : false};
 
       var action0_2:Function = function():void{
-	location0_vars["lightsOn"] = true;
+	location0_vars.lightsOn = true;
 	currentLocation.description = "THE LIGHT BULB FLICKERS DIMLY IN TO EXISTENCE.  THE ROOM DOESN'T LOOK LIKE IT'S BEEN LIVED IN FOR YEARS.  AFTER A MOMENT, YOU REALISE THAT THIS IS YOUR APPARTMENT.";
+	location0.addExit(location0_vars.north);
+	location0.addExit(location0_vars.east);
 	showLocation();
 	currentLocation.description = "THE LIGHT IS ON, BUT YOU'D PREFER IF IT WASN'T.  THE ROOM IS A GRIMEY MESS.  KIBBLE SEEMS TO HAVE TAKEN OVER.  THERE IS A DOOR LEADING NORTH AND A ROOM TO THE EAST.";
       };
@@ -79,9 +85,12 @@ package ch.forea.textas{
       location0.addRule(new Rule(this, ["TURN ON LIGHT", "TURN ON LIGHTS", "SWITCH ON LIGHT", "SWITCH ON LIGHTS"], [condition0_1], [action0_3]));
 
       var action0_4:Function = function():void{
-        location0_vars["lightsOn"] = false;
+        location0_vars.lightsOn = false;
+	location0.removeExit(location0_vars.north);
+	location0.removeExit(location0_vars.east);
+	currentLocation.description = "THE ROOM IS PLUNGED BACK IN TO DARKNESS.";
+	showLocation();
 	currentLocation.description = "IT IS TOO DARK TO SEE ANYTHING";
-        write("THE ROOM IS PLUNGED BACK IN TO DARKNESS.");
       };
       location0.addRule(new Rule(this, ["TURN OFF LIGHT", "TURN OFF LIGHTS", "SWITCH OFF LIGHT", "SWITCH OFF LIGHTS"], [condition0_1], [action0_4]));
 
@@ -90,6 +99,13 @@ package ch.forea.textas{
       };
       location0.addRule(new Rule(this, ["TURN OFF LIGHT", "TURN OFF LIGHTS", "SWITCH OFF LIGHT", "SWITCH OFF LIGHTS"], [condition0_0], [action0_5]));
       
+      
+
+
+      // LOCATION 1
+      
+      var location1_vars:Object = {};
+
       var action1_0:Function = function():void{
 	write("THERE ISN'T ENOUGH SPACE TO BEND OVER, BUT YOU WOULDN'T WANT TO ANYWAY, THE ODOUR IS QUITE PUNGENT, EVEN FROM UP HERE!");
       };
@@ -99,6 +115,12 @@ package ch.forea.textas{
 	write("NO.");
       };
       location1.addRule(new Rule(this, ["GET SHOES", "GET SHOE", "PICK UP SHOES", "PICK UP SHOE"], [], [action1_1]));
+
+      var action1_2:Function = function():void{
+	
+      };
+
+
     }
   }
 
