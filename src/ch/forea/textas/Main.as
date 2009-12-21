@@ -9,6 +9,7 @@ package ch.forea.textas{
   import flash.text.TextField;
   import flash.text.TextFieldAutoSize;
   import flash.text.TextFormat;
+  import flash.text.Font;
 
   public class Main extends Sprite{
     
@@ -18,12 +19,14 @@ package ch.forea.textas{
     private var inputString:String = "";
     private var inputText:TextField;
 
-    [Embed(source="/Users/jonathanmcallister/Documents/workspace/textas/font/C64.TTF", fontName="Commodore 64", advancedAntiAliasing="false", unicodeRange="U+0041-005A,U+0020,U+0030-0039")]
-    public var font:String;
+    [Embed(source="../../../../font/C64.TTF", fontFamily="C64", advancedAntiAliasing="false")]
+    public var font:Class;
 
     public function Main(){
       stage.scaleMode = StageScaleMode.NO_SCALE;
       stage.align = StageAlign.TOP_LEFT;
+      
+      Font.registerFont(font);
 
       world = new World(write, showLocation);
       
@@ -36,13 +39,10 @@ package ch.forea.textas{
       //label.autoSize = TextFieldAutoSize.LEFT;
 
       var format:TextFormat = new TextFormat();
-      format.font = "Commodore 64";
+      format.font = "C64";
       format.color = 0xA5A5FF;
       format.size = 20;
 
-      outputText.sharpness = 400;
-      outputText.thickness = -200;
-      outputText.antiAliasType = flash.text.AntiAliasType.ADVANCED;
       outputText.mouseEnabled = false;
       outputText.defaultTextFormat = format;
       outputText.x = 40;
@@ -50,6 +50,7 @@ package ch.forea.textas{
       outputText.width = 645;
       outputText.height = 380;
       outputText.wordWrap = true;
+      outputText.embedFonts = true;
       addChild(outputText);
       
       inputText = new TextField();
@@ -60,6 +61,7 @@ package ch.forea.textas{
       inputText.width = 640;
       inputText.height = 20;
       inputText.text = PROMPT;
+      inputText.embedFonts = true;
       addChild(inputText);
       
       showLocation();

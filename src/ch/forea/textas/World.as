@@ -2,6 +2,8 @@ package ch.forea.textas{
 
   public class World{
     
+    public var version:String = "0.0.0.0004";
+
     public var score:uint = 0;
     public var euros:uint = 0;
 
@@ -10,7 +12,7 @@ package ch.forea.textas{
     public var currentLocation:Location;
     
     private var _directions:Vector.<String> = Vector.<String>(["NORTH", "SOUTH", "EAST", "WEST", "UP", "DOWN"]);
-    private var _verbs:Vector.<String> = Vector.<String>(["LOOK", "EXAMINE", "SWITCH", "TURN", "PICK", "GET", "OPEN"]);
+    private var _verbs:Vector.<String> = Vector.<String>(["VERSION", "LOOK", "EXAMINE", "SWITCH", "TURN", "PICK", "GET", "OPEN"]);
     private var _nouns:Vector.<String> = Vector.<String>(["UP", "ON", "OFF", "LIGHT", "LIGHTS", "SHOE", "SHOES", "KIPPLE", "EYES", "DOOR"]);
     
     private var _rules:Vector.<Rule> = new Vector.<Rule>;
@@ -29,6 +31,14 @@ package ch.forea.textas{
     }
     public function get rules():Vector.<Rule>{
       return _rules.concat();
+    }
+    public function addRule(rule:Rule):void{
+      _rules.push(rule);
+    }
+    public function removeRule(rule:Rule):void{
+      if(_rules.indexOf(rule) > -1){
+        _rules.splice(_rules.indexOf(rule), 1);
+      }
     }
     public function testDirection(direction:String):Boolean{
       var exits:Vector.<Exit> = currentLocation.exits;
@@ -60,6 +70,12 @@ package ch.forea.textas{
       currentLocation = location0;
       
 
+      // GLOBAL
+
+      var action0:Function = function():void{
+	write(version);
+      };
+      addRule(new Rule(this, ["VERSION"], [], [action0]));
 
       
       // LOCATION 0 - YOUR APPARTMENT
@@ -119,6 +135,8 @@ package ch.forea.textas{
       };
       location0.addRule(new Rule(this, ["LOOK DOOR", "EXAMINE DOOR"], [], [action0_9]));
 
+      
+
 
 
       // LOCATION 1 - WARDROBE IN YOUR APPARTMENT
@@ -133,12 +151,27 @@ package ch.forea.textas{
       var action1_1:Function = function():void{
 	write("NO.  I'M NOT TOUCHING THEM!");
       };
-      location1.addRule(new Rule(this, ["GET SHOES", "GET SHOE", "PICK UP SHOES", "PICK UP SHOE"], [], [action1_1]));
+      location1.addRule(new Rule(this, ["TAKE SHOES", "TAKE SHOE", "GET SHOES", "GET SHOE", "PICK UP SHOES", "PICK UP SHOE"], [], [action1_1]));
 
       var action1_2:Function = function():void{
-	
+	write("AMONGST THE CLOTHES ARE FEW SHIRTS, A SUIT BAG, AND A COAT.");
       };
-      
+      location1.addRule(new Rule(this, ["LOOK CLOTHES", "EXAMINE CLOTHES"], [], [action1_2]));
+
+      var action1_3:Function = function():void{
+	write("A FEW SHIRTS WITH QUESTIONABLE STAINS.");
+      };
+      location1.addRule(new Rule(this, ["LOOK SHIRT", "LOOK SHIRTS", "EXAMINE SHIRT", "EXAMINE SHIRTS"], [], [action1_3]));
+
+      var action1_4:Function = function():void{
+	write("I THINK I'LL LEAVE THEM WHERE THEY ARE.");
+      };
+      location1.addRule(new Rule(this, ["TAKE SHIRT", "TAKE SHIRTS", "GET SHIRT", "GET SHIRTS", "PICK UP SHIRT", "PICK UP SHIRTS"], [], [action1_4]));
+
+      var action1_5:Function = function():void{
+	write("");
+      };
+      location1.addRule(new Rule(this, [], [], []));
 
       
 
@@ -148,3 +181,12 @@ package ch.forea.textas{
   }
 
 }
+
+/*
+
+var action1_5:Function = function():void{
+  write("");
+};
+location1.addRule(new Rule(this, [], [], []));
+
+*/
