@@ -106,7 +106,23 @@ package ch.forea.textas{
       var foundWords:String;
       var foundVerb:Boolean = false;
       var foundNouns:uint = 0;
+      
 
+      // replace the words with their respective keywords
+      var tempWords:Array = [];
+      var newWord:String;
+      for each(var word:String in words){
+	newWord = world.testWord(word);
+	if(newWord){
+	  tempWords.push(newWord);
+	  newWord = null;
+	}
+      }
+      words = tempWords;
+      tempWords = null;
+      
+      trace(words);
+      
       var l:uint = words.length;
       for(var i:uint=0;i<l;i++){
 	if(!foundVerb && world.directions.indexOf(words[i]) > -1){
@@ -120,11 +136,11 @@ package ch.forea.textas{
 	  }
 	  return;
 	}else if(!foundVerb && world.verbs.indexOf(words[i]) > -1){
-	  //trace("verb found:", words[i]);
+	  trace("verb found:", words[i]);
 	  foundWords = words[i];
 	  foundVerb = true;
 	}else if(foundVerb && foundNouns < 2 && world.nouns.indexOf(words[i]) > -1){
-	  //trace("noun found:", words[i]);
+	  trace("noun found:", words[i]);
 	  foundWords += " " + words[i];
 	  foundNouns++;
 	}
@@ -150,7 +166,9 @@ package ch.forea.textas{
           return;
         }
       }
-
+      
+      trace("foundWords = " + foundWords);
+      
       rules = world.currentLocation.rules;
       l = rules.length;
       for(i = 0; i < l; i++){

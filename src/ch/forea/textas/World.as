@@ -11,10 +11,33 @@ package ch.forea.textas{
     
     public var currentLocation:Location;
     
-    private var _directions:Vector.<String> = Vector.<String>(["NORTH", "SOUTH", "EAST", "WEST", "UP", "DOWN"]);
-    private var _verbs:Vector.<String> = Vector.<String>(["VERSION", "LOOK", "EXAMINE", "SWITCH", "TURN", "PICK", "GET", "OPEN"]);
-    private var _nouns:Vector.<String> = Vector.<String>(["UP", "ON", "OFF", "LIGHT", "LIGHTS", "SHOE", "SHOES", "KIPPLE", "EYES", "DOOR"]);
-    
+    private var _directions:Vector.<String> = new Vector.<String>();
+    private var _verbs:Vector.<String> = new Vector.<String>();
+    private var _nouns:Vector.<String> = new Vector.<String>();
+    private var _words:Vector.<Word> = Vector.<Word>([
+						      new Word("VERSION", Word.VERB),
+						      new Word("NORTH", Word.DIRECTION, ["N"]),
+						      new Word("EAST", Word.DIRECTION, ["E"]),
+						      new Word("SOUTH", Word.DIRECTION, ["S"]),
+						      new Word("WEST", Word.DIRECTION, ["W"]),
+						      new Word("UP", Word.DIRECTION, ["U"]),
+						      new Word("DOWN", Word.DIRECTION, ["D"]),
+						      new Word("TURN", Word.VERB, ["SWITCH"]),
+						      new Word("ON", Word.NOUN),
+						      new Word("OFF", Word.NOUN),
+						      new Word("PICK", Word.VERB),
+						      new Word("OPEN", Word.VERB),
+						      new Word("LOOK", Word.VERB, ["L", "EXAMINE", "X"]),
+						      new Word("TAKE", Word.VERB, ["G", "GET", "T", "PICK UP"]),
+						      new Word("SHOE", Word.NOUN, ["SHOES", "SNEAKERS", "TRAINERS", "BOOTS"]),
+						      new Word("CLOTHES", Word.NOUN),
+						      new Word("SHIRT", Word.NOUN, ["SHIRTS"]),
+						      new Word("LIGHT", Word.NOUN,["LIGHTS", "LAMP"]),
+						      new Word("DOOR", Word.NOUN),
+						      new Word("EYES", Word.NOUN, ["EYE"]),
+						      new Word("KIPPLE", Word.NOUN, ["RUBBISH"])
+                                                     ]);
+
     private var _rules:Vector.<Rule> = new Vector.<Rule>;
     
     private var write:Function;
@@ -52,6 +75,19 @@ package ch.forea.textas{
       return false;
     }
 
+    public function addWord(word:Word):void{
+      _words.push(word);
+    }
+    public function testWord(testWord:String):String{
+      for each(var i:Word in _words){
+	if(testWord == i.keyword) return i.keyword;
+	for each(var j:String in i.alternatives){
+	  if(testWord == j) return i.keyword;
+	}
+      }
+      return null;
+    }
+
 
 
     public function World(write:Function, showLocation:Function){
@@ -59,6 +95,16 @@ package ch.forea.textas{
       this.write = write;
       this.showLocation = showLocation;
       
+      for each(var word:Word in _words){
+	  if(word.type == Word.DIRECTION){
+	    _directions.push(word.keyword);
+	  }else if(word.type == Word.VERB){
+	    _verbs.push(word.keyword);
+	  }else{
+	    _nouns.push(word.keyword);
+	  }
+      }
+
       var location0:Location = new Location("DARK ROOM", "IT IS TOO DARK TO SEE ANYTHING.");
       var location1:Location = new Location("TINY DARK ROOM", "YOU ARE STANDING IN A TINY DARK ROOM.  THE ONLY LIGHT IS FROM ROOM YOU CAME FROM.  CLOTHES ARE HANGING ALL AROUND YOU AND SHOES LITTER THE FLOOR.");
       var location2:Location = new Location("HALLWAY", "YOU ARE STANDING OUTSIDE YOUR APPARTMENT.  NUMBER 2673/B.  THE DOOR IS WIDE OPEN AND YOU CAN SEE THE SMELL ESCAPING.");
@@ -75,7 +121,9 @@ package ch.forea.textas{
       var action0:Function = function():void{
 	write(version);
       };
-      addRule(new Rule(this, ["VERSION"], [], [action0]));
+      addRule(new Rule(this, "VERSION", [], [action0]));
+
+      
 
       
       // LOCATION 0 - YOUR APPARTMENT
@@ -93,12 +141,12 @@ package ch.forea.textas{
 	showLocation();
 	currentLocation.description = "THE LIGHT IS ON, BUT YOU'D PREFER IF IT WASN'T.  THE ROOM IS A GRIMEY MESS.  KIPPLE SEEMS TO HAVE TAKEN OVER.  THERE IS A SMALL ROOM TO THE NORTH AND A DOOR TO THE EAST.";
       };
-      location0.addRule(new Rule(this, ["TURN ON LIGHT", "TURN ON LIGHTS", "SWITCH ON LIGHT", "SWITCH ON LIGHTS"], [condition0_0], [action0_2]));
+      location0.addRule(new Rule(this, "TURN ON LIGHT", [condition0_0], [action0_2]));
 
       var action0_3:Function = function():void{
         write("THE LIGHTS ARE ALREADY ON.");
       };
-      location0.addRule(new Rule(this, ["TURN ON LIGHT", "TURN ON LIGHTS", "SWITCH ON LIGHT", "SWITCH ON LIGHTS"], [condition0_1], [action0_3]));
+      location0.addRule(new Rule(this, "TURN ON LIGHT", [condition0_1], [action0_3]));
 
       var action0_4:Function = function():void{
         location0_vars.lightsOn = false;
@@ -108,32 +156,32 @@ package ch.forea.textas{
 	showLocation();
 	currentLocation.description = "IT IS TOO DARK TO SEE ANYTHING";
       };
-      location0.addRule(new Rule(this, ["TURN OFF LIGHT", "TURN OFF LIGHTS", "SWITCH OFF LIGHT", "SWITCH OFF LIGHTS"], [condition0_1], [action0_4]));
+      location0.addRule(new Rule(this, "TURN OFF LIGHT", [condition0_1], [action0_4]));
 
       var action0_5:Function = function():void{
 	write("THE LIGHTS ARE ALREADY OFF.");
       };
-      location0.addRule(new Rule(this, ["TURN OFF LIGHT", "TURN OFF LIGHTS", "SWITCH OFF LIGHT", "SWITCH OFF LIGHTS"], [condition0_0], [action0_5]));
+      location0.addRule(new Rule(this, "TURN OFF LIGHT", [condition0_0], [action0_5]));
       
       var action0_6:Function = function():void{
 	write("KIPPLE IS USELESS OBJECTS, LIKE JUNK MAIL OR MATCH FOLDERS AFTER YOU USE THE LAST MATCH OR GUM WRAPPERS OR YESTERDAY'S HOMEOPAPE.  WHEN NOBODY'S AROUND, KIPPLE REPRODUCES ITSELF.  FOR INSTANCE, IF YOU GO TO BED LEAVING ANY KIPPLE AROUND YOUR APPARTMENT, WHEN YOU WAKE UP THERE IS TWICE AS MUCH OF IT.  IT ALWAYS GETS MORE AND MORE.  THERE'S THE FIRST LAW OF KIPPLE \"KIPPLE DRIVES OUT NONKIPPLE.\"");
       };
-      location0.addRule(new Rule(this, ["LOOK KIPPLE", "EXAMINE KIPPLE"], [], [action0_6]));
+      location0.addRule(new Rule(this, "LOOK KIPPLE", [], [action0_6]));
 
       var action0_7:Function = function():void{
 	write("YOU OPEN YOUR EYES AND GIVE THEM A RUB.  IT'S STILL DARK.");
       };
-      location0.addRule(new Rule(this, ["OPEN EYES"], [condition0_0], [action0_7]));
+      location0.addRule(new Rule(this, "OPEN EYES", [condition0_0], [action0_7]));
 
       var action0_8:Function = function():void{
 	write("THE DOOR REFUSES TO OPEN.  IT SAYS, \"FIVE CENTS, PLEASE.\"");
       };
-      location0.addRule(new Rule(this, ["OPEN DOOR"], [], [action0_8]));
+      location0.addRule(new Rule(this, "OPEN DOOR", [], [action0_8]));
 
       var action0_9:Function = function():void{
 	write("A LARGE METAL DOOR MADE OF REINFORCED STEEL.  THERE DOESN'T APPEAR TO BE A HANDLE, BUT BESIDE THE DOOR THERE IS A SMALL COIN SLOT.");
       };
-      location0.addRule(new Rule(this, ["LOOK DOOR", "EXAMINE DOOR"], [], [action0_9]));
+      location0.addRule(new Rule(this, "LOOK DOOR", [], [action0_9]));
 
       
 
@@ -146,32 +194,32 @@ package ch.forea.textas{
       var action1_0:Function = function():void{
 	write("THERE ISN'T ENOUGH SPACE TO BEND OVER, BUT YOU WOULDN'T WANT TO ANYWAY, THE ODOUR IS QUITE PUNGENT, EVEN FROM UP HERE!");
       };
-      location1.addRule(new Rule(this, ["LOOK SHOES", "LOOK SHOE", "EXAMINE SHOES", "EXAMINE SHOE"], [], [action1_0]));
+      location1.addRule(new Rule(this, "LOOK SHOE", [], [action1_0]));
 
       var action1_1:Function = function():void{
 	write("NO.  I'M NOT TOUCHING THEM!");
       };
-      location1.addRule(new Rule(this, ["TAKE SHOES", "TAKE SHOE", "GET SHOES", "GET SHOE", "PICK UP SHOES", "PICK UP SHOE"], [], [action1_1]));
+      location1.addRule(new Rule(this, "TAKE SHOE", [], [action1_1]));
 
       var action1_2:Function = function():void{
 	write("AMONGST THE CLOTHES ARE FEW SHIRTS, A SUIT BAG, AND A COAT.");
       };
-      location1.addRule(new Rule(this, ["LOOK CLOTHES", "EXAMINE CLOTHES"], [], [action1_2]));
+      location1.addRule(new Rule(this, "LOOK CLOTHES", [], [action1_2]));
 
       var action1_3:Function = function():void{
 	write("A FEW SHIRTS WITH QUESTIONABLE STAINS.");
       };
-      location1.addRule(new Rule(this, ["LOOK SHIRT", "LOOK SHIRTS", "EXAMINE SHIRT", "EXAMINE SHIRTS"], [], [action1_3]));
+      location1.addRule(new Rule(this, "LOOK SHIRT", [], [action1_3]));
 
       var action1_4:Function = function():void{
 	write("I THINK I'LL LEAVE THEM WHERE THEY ARE.");
       };
-      location1.addRule(new Rule(this, ["TAKE SHIRT", "TAKE SHIRTS", "GET SHIRT", "GET SHIRTS", "PICK UP SHIRT", "PICK UP SHIRTS"], [], [action1_4]));
+      location1.addRule(new Rule(this, "TAKE SHIRT", [], [action1_4]));
 
       var action1_5:Function = function():void{
 	write("");
       };
-      location1.addRule(new Rule(this, [], [], []));
+      location1.addRule(new Rule(this, "", [], []));
 
       
 
