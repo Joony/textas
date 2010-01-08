@@ -1,109 +1,36 @@
 package ch.forea.textas{
 
-  public class World{
-    
-    public var version:String = "0.0.0.0004";
+  public class World extends AbstractWorld{
 
     public var score:uint = 0;
     public var euros:uint = 0;
-
-    public var inventory:Object = {};
     
-    public var currentLocation:Location;
     
-    private var _directions:Vector.<String> = new Vector.<String>();
-    private var _verbs:Vector.<String> = new Vector.<String>();
-    private var _nouns:Vector.<String> = new Vector.<String>();
-    private var _words:Vector.<Word> = Vector.<Word>([
-						      new Word("VERSION", Word.VERB),
-						      new Word("NORTH", Word.DIRECTION, ["N"]),
-						      new Word("EAST", Word.DIRECTION, ["E"]),
-						      new Word("SOUTH", Word.DIRECTION, ["S"]),
-						      new Word("WEST", Word.DIRECTION, ["W"]),
-						      new Word("UP", Word.DIRECTION, ["U"]),
-						      new Word("DOWN", Word.DIRECTION, ["D"]),
-						      new Word("TURN", Word.VERB, ["SWITCH"]),
-						      new Word("ON", Word.NOUN),
-						      new Word("OFF", Word.NOUN),
-						      new Word("PICK", Word.VERB),
-						      new Word("OPEN", Word.VERB),
-						      new Word("LOOK", Word.VERB, ["L", "EXAMINE", "X"]),
-						      new Word("TAKE", Word.VERB, ["G", "GET", "T", "PICK UP"]),
-						      new Word("SHOE", Word.NOUN, ["SHOES", "SNEAKERS", "TRAINERS", "BOOTS"]),
-						      new Word("CLOTHES", Word.NOUN),
-						      new Word("SHIRT", Word.NOUN, ["SHIRTS"]),
-						      new Word("LIGHT", Word.NOUN,["LIGHTS", "LAMP"]),
-						      new Word("DOOR", Word.NOUN),
-						      new Word("EYES", Word.NOUN, ["EYE"]),
-						      new Word("KIPPLE", Word.NOUN, ["RUBBISH"])
-                                                     ]);
-
-    private var _rules:Vector.<Rule> = new Vector.<Rule>;
-    
-    private var write:Function;
-    private var showLocation:Function;
-    
-    public function get directions():Vector.<String>{
-      return _directions.concat();
-    }
-    public function get verbs():Vector.<String>{
-      return _verbs.concat();
-    }
-    public function get nouns():Vector.<String>{
-      return _nouns.concat();
-    }
-    public function get rules():Vector.<Rule>{
-      return _rules.concat();
-    }
-    public function addRule(rule:Rule):void{
-      _rules.push(rule);
-    }
-    public function removeRule(rule:Rule):void{
-      if(_rules.indexOf(rule) > -1){
-        _rules.splice(_rules.indexOf(rule), 1);
-      }
-    }
-    public function testDirection(direction:String):Boolean{
-      var exits:Vector.<Exit> = currentLocation.exits;
-      var l:uint = exits.length;
-      for(var i:uint = 0; i < l; i++){
-	if(direction == exits[i].directionName){
-	  currentLocation = exits[i].leadsTo;
-	  return true;
-	}
-      }
-      return false;
-    }
-
-    public function addWord(word:Word):void{
-      _words.push(word);
-    }
-    public function testWord(testWord:String):String{
-      for each(var i:Word in _words){
-	if(testWord == i.keyword) return i.keyword;
-	for each(var j:String in i.alternatives){
-	  if(testWord == j) return i.keyword;
-	}
-      }
-      return null;
-    }
-
-
-
     public function World(write:Function, showLocation:Function){
+      words = Vector.<Word>([
+			      new Word("VERSION", Word.VERB),
+			      new Word("NORTH", Word.DIRECTION, ["N"]),
+			      new Word("EAST", Word.DIRECTION, ["E"]),
+			      new Word("SOUTH", Word.DIRECTION, ["S"]),
+			      new Word("WEST", Word.DIRECTION, ["W"]),
+			      new Word("UP", Word.DIRECTION, ["U"]),
+			      new Word("DOWN", Word.DIRECTION, ["D"]),
+			      new Word("TURN", Word.VERB, ["SWITCH"]),
+			      new Word("ON", Word.NOUN),
+			      new Word("OFF", Word.NOUN),
+			      new Word("PICK", Word.VERB),
+			      new Word("OPEN", Word.VERB),
+			      new Word("LOOK", Word.VERB, ["L", "EXAMINE", "X"]),
+			      new Word("TAKE", Word.VERB, ["G", "GET", "T", "PICK UP"]),
+			      new Word("SHOE", Word.NOUN, ["SHOES", "SNEAKERS", "TRAINERS", "BOOTS"]),
+			      new Word("CLOTHES", Word.NOUN),
+			      new Word("SHIRT", Word.NOUN, ["SHIRTS"]),
+			      new Word("LIGHT", Word.NOUN,["LIGHTS", "LAMP"]),
+			      new Word("DOOR", Word.NOUN),
+			      new Word("EYES", Word.NOUN, ["EYE"]),
+			      new Word("KIPPLE", Word.NOUN, ["RUBBISH", "TRASH"])
+                             ]);
 
-      this.write = write;
-      this.showLocation = showLocation;
-      
-      for each(var word:Word in _words){
-	  if(word.type == Word.DIRECTION){
-	    _directions.push(word.keyword);
-	  }else if(word.type == Word.VERB){
-	    _verbs.push(word.keyword);
-	  }else{
-	    _nouns.push(word.keyword);
-	  }
-      }
 
       var location0:Location = new Location("DARK ROOM", "IT IS TOO DARK TO SEE ANYTHING.");
       var location1:Location = new Location("TINY DARK ROOM", "YOU ARE STANDING IN A TINY DARK ROOM.  THE ONLY LIGHT IS FROM ROOM YOU CAME FROM.  CLOTHES ARE HANGING ALL AROUND YOU AND SHOES LITTER THE FLOOR.");
@@ -225,16 +152,8 @@ package ch.forea.textas{
 
       // LOCATION 2 - HALLWAY OUTSIDE YOUR APPARTMENT
       
+      super(write, showLocation);
     }
   }
 
 }
-
-/*
-
-var action1_5:Function = function():void{
-  write("");
-};
-location1.addRule(new Rule(this, [], [], []));
-
-*/
