@@ -148,13 +148,8 @@ package ch.forea.textas{
 	inputString = "";
 	return;
       }
-      
-      if(foundWords == "LOOK"){
-	showLocation();
-	inputString = "";
-	return;
-      }
-
+            
+      // check for a rule match in the world rule list
       var rules:Vector.<Rule> = world.rules;
       l = rules.length;
       for(i = 0; i < l; i++){
@@ -166,6 +161,7 @@ package ch.forea.textas{
       
       //trace("foundWords = " + foundWords);
       
+      // check for a rule match in the current location's rule list
       rules = world.currentLocation.rules;
       l = rules.length;
       for(i = 0; i < l; i++){

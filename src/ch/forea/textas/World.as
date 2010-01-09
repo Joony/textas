@@ -49,8 +49,10 @@ package ch.forea.textas{
 	write(version);
       };
       addRule(new Rule(this, ["VERSION"], [], [action0]));
-
       
+      addRule(new Rule(this, ["LOOK"], [], [showLocation]));
+
+
 
       
       // LOCATION 0 - YOUR APPARTMENT
