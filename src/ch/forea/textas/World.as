@@ -48,7 +48,7 @@ package ch.forea.textas{
       var action0:Function = function():void{
 	write(version);
       };
-      addRule(new Rule(this, "VERSION", [], [action0]));
+      addRule(new Rule(this, ["VERSION"], [], [action0]));
 
       
 
@@ -68,12 +68,12 @@ package ch.forea.textas{
 	showLocation();
 	currentLocation.description = "THE LIGHT IS ON, BUT YOU'D PREFER IF IT WASN'T.  THE ROOM IS A GRIMEY MESS.  KIPPLE SEEMS TO HAVE TAKEN OVER.  THERE IS A SMALL ROOM TO THE NORTH AND A DOOR TO THE EAST.";
       };
-      location0.addRule(new Rule(this, "TURN ON LIGHT", [condition0_0], [action0_2]));
+      location0.addRule(new Rule(this, ["TURN ON LIGHT"], [condition0_0], [action0_2]));
 
       var action0_3:Function = function():void{
         write("THE LIGHTS ARE ALREADY ON.");
       };
-      location0.addRule(new Rule(this, "TURN ON LIGHT", [condition0_1], [action0_3]));
+      location0.addRule(new Rule(this, ["TURN ON LIGHT"], [condition0_1], [action0_3]));
 
       var action0_4:Function = function():void{
         location0_vars.lightsOn = false;
@@ -83,32 +83,32 @@ package ch.forea.textas{
 	showLocation();
 	currentLocation.description = "IT IS TOO DARK TO SEE ANYTHING";
       };
-      location0.addRule(new Rule(this, "TURN OFF LIGHT", [condition0_1], [action0_4]));
+      location0.addRule(new Rule(this, ["TURN OFF LIGHT"], [condition0_1], [action0_4]));
 
       var action0_5:Function = function():void{
 	write("THE LIGHTS ARE ALREADY OFF.");
       };
-      location0.addRule(new Rule(this, "TURN OFF LIGHT", [condition0_0], [action0_5]));
+      location0.addRule(new Rule(this, ["TURN OFF LIGHT"], [condition0_0], [action0_5]));
       
       var action0_6:Function = function():void{
 	write("KIPPLE IS USELESS OBJECTS, LIKE JUNK MAIL OR MATCH FOLDERS AFTER YOU USE THE LAST MATCH OR GUM WRAPPERS OR YESTERDAY'S HOMEOPAPE.  WHEN NOBODY'S AROUND, KIPPLE REPRODUCES ITSELF.  FOR INSTANCE, IF YOU GO TO BED LEAVING ANY KIPPLE AROUND YOUR APPARTMENT, WHEN YOU WAKE UP THERE IS TWICE AS MUCH OF IT.  IT ALWAYS GETS MORE AND MORE.  THERE'S THE FIRST LAW OF KIPPLE \"KIPPLE DRIVES OUT NONKIPPLE.\"");
       };
-      location0.addRule(new Rule(this, "LOOK KIPPLE", [], [action0_6]));
+      location0.addRule(new Rule(this, ["LOOK KIPPLE"], [], [action0_6]));
 
       var action0_7:Function = function():void{
 	write("YOU OPEN YOUR EYES AND GIVE THEM A RUB.  IT'S STILL DARK.");
       };
-      location0.addRule(new Rule(this, "OPEN EYES", [condition0_0], [action0_7]));
+      location0.addRule(new Rule(this, ["OPEN EYES"], [condition0_0], [action0_7]));
 
       var action0_8:Function = function():void{
 	write("THE DOOR REFUSES TO OPEN.  IT SAYS, \"FIVE CENTS, PLEASE.\"");
       };
-      location0.addRule(new Rule(this, "OPEN DOOR", [], [action0_8]));
+      location0.addRule(new Rule(this, ["OPEN DOOR"], [], [action0_8]));
 
       var action0_9:Function = function():void{
 	write("A LARGE METAL DOOR MADE OF REINFORCED STEEL.  THERE DOESN'T APPEAR TO BE A HANDLE, BUT BESIDE THE DOOR THERE IS A SMALL COIN SLOT.");
       };
-      location0.addRule(new Rule(this, "LOOK DOOR", [], [action0_9]));
+      location0.addRule(new Rule(this, ["LOOK DOOR"], [], [action0_9]));
 
       
 
@@ -121,33 +121,34 @@ package ch.forea.textas{
       var action1_0:Function = function():void{
 	write("THERE ISN'T ENOUGH SPACE TO BEND OVER, BUT YOU WOULDN'T WANT TO ANYWAY, THE ODOUR IS QUITE PUNGENT, EVEN FROM UP HERE!");
       };
-      location1.addRule(new Rule(this, "LOOK SHOE", [], [action1_0]));
+      location1.addRule(new Rule(this, ["LOOK SHOE"], [], [action1_0]));
 
       var action1_1:Function = function():void{
 	write("NO.  I'M NOT TOUCHING THEM!");
       };
-      location1.addRule(new Rule(this, "TAKE SHOE", [], [action1_1]));
+      location1.addRule(new Rule(this, ["TAKE SHOE"], [], [action1_1]));
 
       var action1_2:Function = function():void{
 	write("AMONGST THE CLOTHES ARE FEW SHIRTS, A SUIT BAG, AND A COAT.");
       };
-      location1.addRule(new Rule(this, "LOOK CLOTHES", [], [action1_2]));
+      location1.addRule(new Rule(this, ["LOOK CLOTHES"], [], [action1_2]));
 
       var action1_3:Function = function():void{
 	write("A FEW SHIRTS WITH QUESTIONABLE STAINS.");
       };
-      location1.addRule(new Rule(this, "LOOK SHIRT", [], [action1_3]));
+      location1.addRule(new Rule(this, ["LOOK SHIRT"], [], [action1_3]));
 
       var action1_4:Function = function():void{
 	write("I THINK I'LL LEAVE THEM WHERE THEY ARE.");
       };
-      location1.addRule(new Rule(this, "TAKE SHIRT", [], [action1_4]));
+      location1.addRule(new Rule(this, ["TAKE SHIRT"], [], [action1_4]));
 
+      /*
       var action1_5:Function = function():void{
 	write("");
       };
-      location1.addRule(new Rule(this, "", [], []));
-
+      location1.addRule(new Rule(this, [""], [], []));
+      */
       
 
       // LOCATION 2 - HALLWAY OUTSIDE YOUR APPARTMENT
