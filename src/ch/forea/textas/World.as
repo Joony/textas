@@ -2,45 +2,65 @@ package ch.forea.textas{
 
   public class World extends AbstractWorld{
 
-    public var score:uint = 0;
-    public var euros:uint = 0;
-    
+    public var score:uint = 0;    
     
     public function World(write:Function, showLocation:Function){
       words = Vector.<Word>([
-			      new Word("VERSION", Word.VERB),
-			      new Word("NORTH", Word.DIRECTION, ["N"]),
-			      new Word("EAST", Word.DIRECTION, ["E"]),
-			      new Word("SOUTH", Word.DIRECTION, ["S"]),
-			      new Word("WEST", Word.DIRECTION, ["W"]),
-			      new Word("UP", Word.DIRECTION, ["U"]),
-			      new Word("DOWN", Word.DIRECTION, ["D"]),
-			      new Word("TURN", Word.VERB, ["SWITCH"]),
-			      new Word("ON", Word.NOUN),
-			      new Word("OFF", Word.NOUN),
-			      new Word("PICK", Word.VERB),
-			      new Word("OPEN", Word.VERB),
-			      new Word("LOOK", Word.VERB, ["L", "EXAMINE", "X"]),
-			      new Word("TAKE", Word.VERB, ["G", "GET", "T", "PICK UP"]),
-			      new Word("SHOE", Word.NOUN, ["SHOES", "SNEAKERS", "TRAINERS", "BOOTS"]),
-			      new Word("CLOTHES", Word.NOUN),
-			      new Word("SHIRT", Word.NOUN, ["SHIRTS"]),
-			      new Word("LIGHT", Word.NOUN,["LIGHTS", "LAMP"]),
-			      new Word("DOOR", Word.NOUN),
-			      new Word("EYES", Word.NOUN, ["EYE"]),
-			      new Word("KIPPLE", Word.NOUN, ["RUBBISH", "TRASH"])
+			     new Word("INVENTORY", Word.VERB, ["I"]),
+			     new Word("VERSION", Word.VERB),
+			     new Word("NORTH", Word.DIRECTION, ["N"]),
+			     new Word("EAST", Word.DIRECTION, ["E"]),
+			     new Word("SOUTH", Word.DIRECTION, ["S"]),
+			     new Word("WEST", Word.DIRECTION, ["W"]),
+			     new Word("UP", Word.DIRECTION, ["U"]),
+		             new Word("DOWN", Word.DIRECTION, ["D"]),
+		             new Word("TURN", Word.VERB, ["SWITCH"]),
+		             new Word("ON", Word.NOUN),
+		             new Word("OFF", Word.NOUN),
+		             new Word("PICK", Word.VERB),
+		             new Word("OPEN", Word.VERB),
+		             new Word("LOOK", Word.VERB, ["L", "EXAMINE", "X"]),
+		             new Word("TAKE", Word.VERB, ["G", "GET", "T", "PICK UP"]),
+		             new Word("SHOE", Word.NOUN, ["SHOES", "SNEAKERS", "TRAINERS", "BOOTS"]),
+		             new Word("CLOTHES", Word.NOUN),
+		             new Word("SHIRT", Word.NOUN, ["SHIRTS"]),
+		             new Word("LIGHT", Word.NOUN,["LIGHTS", "LAMP"]),
+		             new Word("DOOR", Word.NOUN),
+		             new Word("EYES", Word.NOUN, ["EYE"]),
+		             new Word("KIPPLE", Word.NOUN, ["RUBBISH", "TRASH"]),
+			     new Word("WRISTWATCH", Word.NOUN, ["WATCH"]),
+			     new Word("COINS", Word.NOUN, ["MONEY"]),
+			     new Word("TEST", Word.VERB)
                              ]);
 
 
+      // LOCATIONS
+      
+      inventory = new Location();
+
       var location0:Location = new Location("DARK ROOM", "IT IS TOO DARK TO SEE ANYTHING.");
       var location1:Location = new Location("TINY DARK ROOM", "YOU ARE STANDING IN A TINY DARK ROOM.  THE ONLY LIGHT IS FROM ROOM YOU CAME FROM.  CLOTHES ARE HANGING ALL AROUND YOU AND SHOES LITTER THE FLOOR.");
-      var location2:Location = new Location("HALLWAY", "YOU ARE STANDING OUTSIDE YOUR APPARTMENT.  NUMBER 2673/B.  THE DOOR IS WIDE OPEN AND YOU CAN SEE THE SMELL ESCAPING.");
+      var location2:Location = new Location("HALLWAY", "YOU ARE STANDING OUTSIDE YOUR APPARTMENT.  NUMBER 2673/B.  THE NAME ON THE DOOR READS \"CHIP.\" THE DOOR IS WIDE OPEN AND YOU CAN SEE THE SMELL ESCAPING.");
       // EXITS
 
       location1.addExit(new Exit(Exit.SOUTH, location0));
       location2.addExit(new Exit(Exit.WEST, location0));
 
       currentLocation = location0;
+
+
+
+      // ITEMS
+
+      items = Vector.<Item>([
+			     new Item("COINS", "<<amount>> CENTS IN COINS", "SOME LOOSE COINS THAT AMOUNT TO <<amount>> CENTS IN TOTAL", location0, {amount:75}),
+			     new Item("WRISTWATCH", "YOUR WRISTWATCH", "CASIO, DIGITAL.  IT READS <<time>>", inventory, {time:function():String{return "7:28pm";}})
+			     ]);
+
+
+
+
+
       
 
       // GLOBAL
@@ -51,6 +71,31 @@ package ch.forea.textas{
       addRule(new Rule(this, ["VERSION"], [], [action0]));
       
       addRule(new Rule(this, ["LOOK"], [], [showLocation]));
+
+      var action1:Function = function():void{
+	write("YOU HAVE:");
+	var item:Item;
+	var inventoryItems:Vector.<Item> = new Vector.<Item>();
+	for each(item in items){
+	    trace("item = " + item, item.location, item.location == inventory);
+	  if(item.location == inventory){
+	    inventoryItems.push(item);
+	  }
+        }
+	if(inventoryItems.length == 0){
+	  write("NOTHING");
+        }else{
+          for each(item in inventoryItems){
+            write(item.shortDescription + "\n");
+          }
+        }
+      };
+      addRule(new Rule(this, ["INVENTORY"], [], [action1]));
+
+      var action2:Function = function():void{
+	write("TEST: " + items[1].longDescription);
+      };
+      addRule(new Rule(this, ["TEST"], [], [action2]));
 
 
 

@@ -2,11 +2,13 @@ package ch.forea.textas{
 
   public class AbstractWorld{
 
-    public var version:String = "0.0.0.0004";
-
-    public var inventory:Object = {};
+    public var version:String = "0.0.0.0005";
 
     public var currentLocation:Location;
+
+    public var inventory:Location;
+    
+    private var _items:Vector.<Item>;
 
     private var _directions:Vector.<String> = new Vector.<String>();
     private var _verbs:Vector.<String> = new Vector.<String>();
@@ -29,6 +31,11 @@ package ch.forea.textas{
     public function get rules():Vector.<Rule>{
       return _rules.concat();
     }
+
+    public function get items():Vector.<Item>{
+      return _items.concat();
+    }
+
     public function addRule(rule:Rule):void{
       if(!_rules) _rules = new Vector.<Rule>();
       _rules.push(rule);
@@ -53,6 +60,11 @@ package ch.forea.textas{
     public function set words(words:Vector.<Word>):void{
       _words = words;
     }
+
+    public function set items(items:Vector.<Item>):void{
+      _items = items;
+    }
+
     public function testWord(testWord:String):String{
       for each(var i:Word in _words){
 	  if(testWord == i.keyword) return i.keyword;
