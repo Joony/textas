@@ -148,7 +148,10 @@ package ch.forea.textas{
 	inputString = "";
 	return;
       }
-            
+      
+      
+
+
       // check for a rule match in the world rule list
       var rules:Vector.<Rule> = world.rules;
       l = rules.length;

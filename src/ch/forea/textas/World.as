@@ -57,7 +57,8 @@ package ch.forea.textas{
 			     new Item("WRISTWATCH", "YOUR WRISTWATCH", "CASIO, DIGITAL.  IT READS <<time>>", inventory, {time:function():String{return "7:28pm";}})
 			     ]);
 
-
+      
+      
 
 
 
@@ -96,6 +97,17 @@ package ch.forea.textas{
 	write("TEST: " + items[1].longDescription);
       };
       addRule(new Rule(this, ["TEST"], [], [action2]));
+
+      
+      var action3:Function = function(command:String):void{
+	var keyword:String = command.replace("LOOK ", "");
+	for each(var item:Item in items){
+	    if(item.keyword == keyword){
+	      write(item.longDescription);
+	    }
+	}
+      };
+      addRule(new Rule(this, ["LOOK COINS", "LOOK WRISTWATCH"], [], [action3]));
 
 
 

@@ -26,7 +26,11 @@ package ch.forea.textas{
 	  }
 	  l1 = _actions.length;
           for(j = 0; j < l1; j++){
-            _actions[j].call(_context);
+            if(_actions[j].length){
+	      _actions[j].call(_context, command);
+	    }else{
+	      _actions[j].call(_context);
+	    }
           }
 	  return true;
         }
