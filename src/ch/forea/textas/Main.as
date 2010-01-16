@@ -136,7 +136,7 @@ package ch.forea.textas{
 	  //trace("verb found:", words[i]);
 	  foundWords = words[i];
 	  foundVerb = true;
-	}else if(foundVerb && foundNouns < 2 && world.nouns.indexOf(words[i]) > -1){
+	}else if(foundVerb && foundNouns < 2 && world.nouns.indexOf(words[i]) > -1 || world.checkForItem(words[i])){
 	  //trace("noun found:", words[i]);
 	  foundWords += " " + words[i];
 	  foundNouns++;

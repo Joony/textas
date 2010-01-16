@@ -17,25 +17,39 @@ package ch.forea.textas{
     public function test(command:String):Boolean{
       var l0:uint = _commands.length;
       for(var i:uint = 0; i < l0; i++){
-        if(command == _commands[i]){
-	  var l1:uint = _conditions.length;
-	  for(var j:uint = 0; j < l1; j++){
-	    if(!_conditions[j].call(_context)){
-	      return false;
-	    }
-	  }
-	  l1 = _actions.length;
-          for(j = 0; j < l1; j++){
-            if(_actions[j].length){
-	      return _actions[j].call(_context, command);
-	    }else{
-	      _actions[j].call(_context);
-	    }
-          }
-	  return true;
+        if(command == _commands[i] && testConditions()){
+	  return executeActions(command);
         }
       }
       return false;
+    }
+
+    /*
+     * Test the conditions
+     * returns true if the conditions pass and the Rule is true.
+     */
+    private function testConditions():Boolean{
+      var l:uint = _conditions.length;
+      for(var i:uint = 0; i < l; i++){
+	if(!_conditions[i].call(_context)){
+	  return false;
+	}
+      }
+      return true;
+    }
+
+    private function executeActions(command:String):Boolean{
+      var l:uint = _actions.length;
+      for(var i:uint = 0; i < l; i++){
+	if(_actions[i].length){
+	  if(!_actions[i].call(_context, command)){
+	    return false;
+	  }
+	}else{
+	  _actions[i].call(_context);
+	}
+      }
+      return true;
     }
 
   }

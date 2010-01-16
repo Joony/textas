@@ -9,6 +9,15 @@ package ch.forea.textas{
     public var inventory:Location;
     
     private var _items:Vector.<Item>;
+    
+    public function checkForItem(itemName:String):Boolean{
+      for each(var item:Item in _items){
+	if(item.keyword == itemName){
+          return true;
+	}
+      }
+      return false;
+    }
 
     private var _directions:Vector.<String> = new Vector.<String>();
     private var _verbs:Vector.<String> = new Vector.<String>();
