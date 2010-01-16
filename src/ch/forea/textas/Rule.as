@@ -17,11 +17,28 @@ package ch.forea.textas{
     public function test(command:String):Boolean{
       var l0:uint = _commands.length;
       for(var i:uint = 0; i < l0; i++){
-        if(command == _commands[i] && testConditions()){
+        if(compareCommands(command, _commands[i]) && testConditions()){
 	  return executeActions(command);
         }
       }
       return false;
+    }
+
+    private function compareCommands(input:String, rule:String):Boolean{
+      if(rule.indexOf("*") == -1){
+	return input == rule;
+      }else{
+	var tempInputCommand:Array = input.split(" ");
+	var tempRuleCommand:Array = rule.split(" ");
+	//TODO: Maybe check the length of both commands to make sure they're the same.
+	var l:uint = tempInputCommand.length;
+        for(var i:uint = 0; i < l; i++){
+	  if(tempRuleCommand[i] != "*" && tempInputCommand[i] != tempRuleCommand[i]){
+	    return false;
+	  }
+	}
+      }
+      return true;
     }
 
     /*
