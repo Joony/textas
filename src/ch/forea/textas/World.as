@@ -107,7 +107,7 @@ package ch.forea.textas{
 	}
 	return false;
       };
-      addRule(new Rule(this, ["LOOK COINS", "LOOK WRISTWATCH"], [], [action3]));
+      addRule(new Rule(this, ["LOOK *"], [], [action3]));
 
 
 
