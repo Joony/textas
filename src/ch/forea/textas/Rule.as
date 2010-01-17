@@ -2,16 +2,20 @@ package ch.forea.textas{
 
   public class Rule{
     
-    private var _context:Object;
     private var _commands:Vector.<String>;
     private var _conditions:Vector.<Function>;
     private var _actions:Vector.<Function>;
     
-    public function Rule(context:Object, commands:Array, conditions:Array, actions:Array){
-      _context = context;
+    private static var _context:Object;
+
+    public function Rule(commands:Array, conditions:Array, actions:Array){
       _commands = Vector.<String>(commands);
       _conditions = Vector.<Function>(conditions);
       _actions = Vector.<Function>(actions);
+    }
+
+    public static function set context(context:Object):void{
+      _context = context;
     }
     
     public function test(command:String):Boolean{
