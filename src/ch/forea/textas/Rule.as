@@ -33,7 +33,7 @@ package ch.forea.textas{
 	//TODO: Maybe check the length of both commands to make sure they're the same.
 	var l:uint = tempInputCommand.length;
         for(var i:uint = 0; i < l; i++){
-	  if(tempRuleCommand[i] != "*" && tempInputCommand[i] != tempRuleCommand[i]){
+	  if((!tempRuleCommand[i] || tempRuleCommand[tempRuleCommand.length-1] != "*") && tempRuleCommand[i] != "*" && tempInputCommand[i] != tempRuleCommand[i]){
 	    return false;
 	  }
 	}

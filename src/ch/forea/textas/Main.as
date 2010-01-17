@@ -10,7 +10,7 @@ package ch.forea.textas{
   import flash.text.TextFieldAutoSize;
   import flash.text.TextFormat;
   import flash.text.Font;
-
+  
   public class Main extends Sprite{
     
     private static const PROMPT:String = "WHAT NOW?> ";
@@ -25,7 +25,6 @@ package ch.forea.textas{
     public function Main(){
       stage.scaleMode = StageScaleMode.NO_SCALE;
       stage.align = StageAlign.TOP_LEFT;
-      
       Font.registerFont(font);
 
       world = new World(write, showLocation);

@@ -1,9 +1,7 @@
 package ch.forea.textas{
-
+  
   public class World extends AbstractWorld{
 
-    public var score:uint = 0;    
-    
     public function World(write:Function, showLocation:Function){
       words = Vector.<Word>([
 			     new Word("INVENTORY", Word.VERB, ["I"]),
@@ -108,6 +106,9 @@ package ch.forea.textas{
 	return false;
       };
       addRule(new Rule(this, ["LOOK *"], [], [action3]));
+
+      
+
 
 
 
