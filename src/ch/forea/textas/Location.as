@@ -32,8 +32,8 @@ package ch.forea.textas{
       trace("_exits:", _exits);
     }
 
-    public function addRule(rule:Rule):void{
-      _rules.push(rule);
+    public function addRule(commands:Array, conditions:Array, actions:Array):void{
+      _rules.push(new Rule(commands, conditions, actions));
     }
 
     public function removeRule(rule:Rule):void{

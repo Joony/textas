@@ -45,9 +45,9 @@ package ch.forea.textas{
       return _items.concat();
     }
 
-    public function addRule(rule:Rule):void{
+    public function addRule(commands:Array, conditions:Array, actions:Array):void{
       if(!_rules) _rules = new Vector.<Rule>();
-      _rules.push(rule);
+      _rules.push(new Rule(commands, conditions, actions));
     }
     public function removeRule(rule:Rule):void{
       if(_rules.indexOf(rule) > -1){
