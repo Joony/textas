@@ -5,6 +5,7 @@ package ch.forea.textas{
     public function World(write:Function, showLocation:Function){
       // Allow all the dynamic code to be executed here
       Rule.context = this;
+      inventory = new Location();
 
       words = Vector.<Word>([
 			     new Word("INVENTORY", Word.VERB, ["I"]),
@@ -36,8 +37,6 @@ package ch.forea.textas{
 
 
       // LOCATIONS
-      
-      inventory = new Location();
 
       var location0:Location = new Location("DARK ROOM", "IT IS TOO DARK TO SEE ANYTHING.");
       var location1:Location = new Location("TINY DARK ROOM", "YOU ARE STANDING IN A TINY DARK ROOM.  THE ONLY LIGHT IS FROM ROOM YOU CAME FROM.  CLOTHES ARE HANGING ALL AROUND YOU AND SHOES LITTER THE FLOOR.");
